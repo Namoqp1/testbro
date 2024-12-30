@@ -220,16 +220,17 @@ local Select_Stage = Main:AddDropdown("Select Stage", {
 	end
 })
 
-local toggleJoin = Main:AddToggle("toggleJoin", {Title = "Auto Join", Default = _G.Join })
+local toggleJoin = Main:AddToggle("toggleJoin", {Title = "Auto Join", Default = _G.join })
 toggleJoin:OnChanged(function(bool)
-	_G.Join = bool
+	_G.join = bool
 	saveSettings()
 end)
 
 
 task.spawn(function()
 	while task.wait() do
-		if _G.Join then
+		print(_G.selectedjoin)
+		if _G.join then
 			if _G.selectedjoin == "Toilet City" then
 				print("Ez")
 			end
@@ -245,7 +246,7 @@ end)
 local Setting = Tabs.Setting:AddSection("Setting") 
 
 local toggleSkip = Setting:AddToggle("toggleSkip", {Title = "Auto Skip", Default = _G.Skip })
-toggleJoin:OnChanged(function(bool)
+toggleSkip:OnChanged(function(bool)
 	_G.Skip = bool
 	saveSettings()
 end)
