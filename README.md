@@ -18,8 +18,6 @@ local Tabs = {
 	Settings = Window:AddTab({ Title = "Settings", Icon = "settings" })
 }
 
-
-
 local aza = "Ladius HUB Configs"
 local bza = tostring(game.PlaceId).."-"..tostring(game.Players.LocalPlayer.Name)
 function saveSettings()
@@ -28,12 +26,18 @@ function saveSettings()
 	if writefile then
 		if isfolder(aza) then
 			writefile(aza .. "\\" .. bza, dza)
-		else
-			makefolder(aza)
-			writefile(aza .. "\\" .. bza, dza)
 		end
 	end
 end
+
+if isfolder(aza) then
+	return
+else
+	makefolder(aza)
+end
+
+
+
 function loadSettings()
 	local cza = game:GetService("HttpService")
 	if isfile(aza .. "\\" .. bza) then
