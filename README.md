@@ -40,11 +40,6 @@ local Tabs = {
 local aza = "Work 5 Configs"
 local bza = tostring(game.PlaceId).."-"..tostring(game.Players.LocalPlayer.Name)
 
-if isfolder(aza) then
-	print("pass")
-else
-	makefolder(aza)
-end
 
 local aza = "Ladius HUB Configs"
 local bza = tostring(game.PlaceId).."-"..tostring(game.Players.LocalPlayer.Name)
@@ -53,7 +48,13 @@ function saveSettings()
 	local dza = cza:JSONEncode(_G)
 	if writefile then
 		if isfolder(aza) then
-			writefile(aza .. "\\" .. bza, dza)
+			if isfolder(bza) then
+				writefile(aza .. "\\" .. bza, dza)
+			else
+				makefolder(aza .. "\\" .. bza)
+			end
+		else
+			makefolder(aza)
 		end
 	end
 end
