@@ -5,7 +5,7 @@ repeat task.wait() until game:GetService("Players").LocalPlayer
 repeat task.wait() until game:GetService("ReplicatedStorage")
 repeat task.wait() until game:GetService("ReplicatedFirst")
 
-_G.selectedjoin = nil
+
 
 
 local function checkLine(s)
@@ -232,19 +232,15 @@ local stage_cf = nil
 task.spawn(function()
 	while task.wait() do
 		if _G.Join then
-			print("pass1")
-			pcall(function()
-				if _G.selectedjoin == "Toilet City" then
-					print("pass2")
-					stage_cf = CFrame.new(-233.093933, 233.456894, 820.848511, 1, 3.48396378e-09, 5.44087598e-05, -3.4816896e-09, 1, -4.17993071e-08, -5.44087598e-05, 4.17991188e-08, 1)
-				elseif _G.selectedjoin == "Desert" then
-					stage_cf = CFrame.new(-371.560699, 233.415955, 820.558899, 1, 1.79245496e-09, 1.95014964e-05, -1.79153126e-09, 1, -4.73667079e-08, -1.95014964e-05, 4.73666724e-08, 1)
-				elseif _G.selectedjoin == "Cameraman HQ" then
-					stage_cf = CFrame.new(-113.433075, 233.809219, 822.59137, 0.0469564311, 1.15877548e-07, -0.998896956, -5.13867775e-08, 1, 1.13589905e-07, 0.998896956, 4.59963196e-08, 0.0469564311)
-				elseif _G.selectedjoin == "Toilet HQ" then
-					stage_cf = CFrame.new(-222.731049, 233.456894, 524.083679, -0.07209263, 2.42295783e-08, -0.997397959, -4.1566274e-08, 1, 2.72972294e-08, 0.997397959, 4.3426045e-08, -0.07209263)
-				end
-			end)
+			if _G.selectedjoin == "Toilet City" then
+				stage_cf = CFrame.new(-233.093933, 233.456894, 820.848511, 1, 3.48396378e-09, 5.44087598e-05, -3.4816896e-09, 1, -4.17993071e-08, -5.44087598e-05, 4.17991188e-08, 1)
+			elseif _G.selectedjoin == "Desert" then
+				stage_cf = CFrame.new(-371.560699, 233.415955, 820.558899, 1, 1.79245496e-09, 1.95014964e-05, -1.79153126e-09, 1, -4.73667079e-08, -1.95014964e-05, 4.73666724e-08, 1)
+			elseif _G.selectedjoin == "Cameraman HQ" then
+				stage_cf = CFrame.new(-113.433075, 233.809219, 822.59137, 0.0469564311, 1.15877548e-07, -0.998896956, -5.13867775e-08, 1, 1.13589905e-07, 0.998896956, 4.59963196e-08, 0.0469564311)
+			elseif _G.selectedjoin == "Toilet HQ" then
+				stage_cf = CFrame.new(-222.731049, 233.456894, 524.083679, -0.07209263, 2.42295783e-08, -0.997397959, -4.1566274e-08, 1, 2.72972294e-08, 0.997397959, 4.3426045e-08, -0.07209263)
+			end
 		end
 	end
 end)
@@ -252,9 +248,7 @@ end)
 task.spawn(function()
 	while task.wait() do
 		if _G.Join then
-			pcall(function()
-				game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = stage_cf
-			end)
+			game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = stage_cf
 		end
 	end
 end)
