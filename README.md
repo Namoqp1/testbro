@@ -215,7 +215,6 @@ local Select_Stage = Main:AddDropdown("Select Stage", {
 	Default = _G.selectedjoin,
 	Callback = function(selected)
 		_G.selectedjoin = selected
-		print(_G.selectedjoin)
 		saveSettings()
 	end
 })
@@ -231,7 +230,7 @@ task.spawn(function()
 	while task.wait() do
 		if _G.join then
 			pcall(function()
-				print("Ez")
+				print(_G.selectedjoin)
 			end)
 		end
 	end
@@ -257,3 +256,61 @@ task.spawn(function()
 		end
 	end
 end)
+
+
+local Macro = Tabs.Setting:AddSection("Macro") 
+
+
+
+local RecordMacroTable = {}
+
+local path = "Ladies_Hub/PixelTD/Macro/"
+
+makefolder(path)
+
+local ye = {}
+
+for i,v in pairs(listfiles("Ladies_Hub/PixelTD/Macro/")) do 
+	table.insert(ye,({v:gsub("Ladies_Hub/PixelTD/Macro/","")})[1])
+end
+
+local Input = Macro:AddInput("Input", {
+	Title = "Create Macro",
+	Default = _G.nameconfig,
+	Placeholder = "Name Macro",
+	Numeric = false,
+	Finished = true,
+	Callback = function(text)
+		print("Input changed:", text)
+		_G.nameconfig = text
+		writefile(path.._G.nameconfig ..".txt","")
+	end
+})
+
+
+local Select_Macro = Macro:AddDropdown("Select Macro", {
+	Title = "Select Macro",
+	Values = ye,
+	Multi = false,
+	Default = _G.selectconfig,
+	Callback = function(tab)
+		_G.selectconfig = tab
+		saveSettings()
+	end
+})
+
+local function Refresh()
+	ye = {}
+	for i,v in pairs(listfiles("Ladies_Hub/PixelTD/Macro/")) do 
+		table.insert(ye,({v:gsub("Ladies_Hub/PixelTD/Macro/","")})[1])
+		Select_Macro:SetValues(ye)
+	end
+end
+
+Macro:AddButton({
+	Title = "Refresh Macro",
+	Description = "",
+	Callback = Refresh
+})
+
+Refresh()
