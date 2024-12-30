@@ -232,8 +232,10 @@ local stage_cf = nil
 task.spawn(function()
 	while task.wait() do
 		if _G.Join then
+			print("pass1")
 			pcall(function()
 				if _G.selectedjoin == "Toilet City" then
+					print("pass2")
 					stage_cf = CFrame.new(-233.093933, 233.456894, 820.848511, 1, 3.48396378e-09, 5.44087598e-05, -3.4816896e-09, 1, -4.17993071e-08, -5.44087598e-05, 4.17991188e-08, 1)
 				elseif _G.selectedjoin == "Desert" then
 					stage_cf = CFrame.new(-371.560699, 233.415955, 820.558899, 1, 1.79245496e-09, 1.95014964e-05, -1.79153126e-09, 1, -4.73667079e-08, -1.95014964e-05, 4.73666724e-08, 1)
@@ -277,4 +279,3 @@ task.spawn(function()
 		end
 	end
 end)
-
