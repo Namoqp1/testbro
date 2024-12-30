@@ -5,6 +5,8 @@ repeat task.wait() until game:GetService("Players").LocalPlayer
 repeat task.wait() until game:GetService("ReplicatedStorage")
 repeat task.wait() until game:GetService("ReplicatedFirst")
 
+_G.selectedjoin = nil
+
 
 local function checkLine(s)
 	local a = 0
@@ -223,6 +225,7 @@ toggleJoin:OnChanged(function(bool)
 	_G.Join = bool
 	saveSettings()
 end)
+
 
 task.spawn(function()
 	while task.wait() do
