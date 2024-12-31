@@ -5,7 +5,7 @@ repeat task.wait() until game:GetService("Players").LocalPlayer
 repeat task.wait() until game:GetService("ReplicatedStorage")
 repeat task.wait() until game:GetService("ReplicatedFirst")
 
-
+print("up1")
 
 
 local function checkLine(s)
@@ -364,16 +364,34 @@ mt.__namecall = function(self,...)
 		if xd then
 			if self.Name == "ChangeMode" then
 				if not args[1]:match("%d") then
-					
+					if args[2] then
+						table.insert(RecordMacroTable,{
+							['time'] = basetime,
+							['type'] = "Place",
+							['data'] = {
+								['name'] = args[1],
+								['position'] = args[2]
+							}
+						})
+					end
+				elseif args[1]:match("%d") then
 					table.insert(RecordMacroTable,{
 						['time'] = basetime,
-						['type'] = "Place",
+						['type'] = "Upgrade",
 						['data'] = {
 							['name'] = args[1],
 							['position'] = args[2]
 						}
 					})
 				end
+			elseif self.Name == "SellTower"  then
+				table.insert(RecordMacroTable,{
+					['time'] = basetime,
+					['type'] = "Sell",
+					['data'] = {
+						['name'] = args[1]
+					}
+				})
 			end
 		end
 	end
