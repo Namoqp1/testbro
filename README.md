@@ -412,8 +412,8 @@ end
 local Play_Macro = Tabs.Macro:AddSection("Play Macro") 
 
 
-local toggleSkip = Play_Macro:AddToggle("togglePlay", {Title = "Play Macro", Default = _G.Play })
-toggleSkip:OnChanged(function(play)
+local togglePlay = Play_Macro:AddToggle("togglePlay", {Title = "Play Macro", Default = _G.Play })
+togglePlay:OnChanged(function(play)
 	_G.Play = play
 	saveSettings()
 	if _G.Play then 
