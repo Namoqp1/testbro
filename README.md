@@ -332,9 +332,9 @@ Macro:AddButton({
 	Title = "Delete file",
 	Description = "",
 	Callback = function(ez)
-	_G.Delete = ez
-	delfile(path.._G.selectconfig)
-end})
+		_G.Delete = ez
+		delfile(path.._G.selectconfig)
+	end})
 
 
 local basetime = 0
@@ -417,53 +417,8 @@ togglePlay:OnChanged(function(play)
 	_G.Play = play
 	saveSettings()
 	if _G.Play then 
-		print("pass1")
 		local datamacro = readfile(path.._G.selectconfig)
-		print("p")
-		local real = loadstring("return "..datamacro)()
-		print("a")
-		for i,v in pairs(real) do 
-			print("ss")
-			if _G.Play then
-				print("pass2")
-				repeat wait() until basetime >= v.time
-				print("pass3")
-				if v["type"] == "Place" then
-					print("place")
-					local args = {
-						[1] = v.data.name,
-						[2] = v.data.position
-					}
-
-					game:GetService("ReplicatedStorage"):WaitForChild("Functions"):WaitForChild("ChangeMode"):InvokeServer(unpack(args))
-				elseif v["type"] == "Upgrade" then
-					local args = {
-						[1] = v.data.name,
-						[2] = v.data.position
-					}
-
-					game:GetService("ReplicatedStorage"):WaitForChild("Functions"):WaitForChild("ChangeMode"):InvokeServer(unpack(args))
-				elseif v["type"] == "Sell" then
-					local current = 10
-					local current_instance = nil
-
-					for i,unit in pairs(workspace:WaitForChild("Towers"):GetChildren()) do 
-						local dis = (v.data.position.Position-unit.HumanoidRootPart.Position).Magnitude
-						if dis < current then
-							current = dis
-							current_instance = unit
-						end
-					end
-					if current_instance then
-						local args = {
-							[1] = current_instance
-						}
-
-						game:GetService("ReplicatedStorage"):WaitForChild("Functions"):WaitForChild("SellTower"):InvokeServer(unpack(args))
-					end
-				end
-			end
-		end
+		print(datamacro)
 	end
 end)
 
