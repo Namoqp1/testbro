@@ -419,46 +419,7 @@ togglePlay:OnChanged(function(play)
 	saveSettings()
 	if _G.Play then 
 		local datamacro = readfile(path.._G.selectconfig)
-		local real = loadstring("return "..datamacro)()
-		for i,v in pairs(real) do 
-			if _G.Play then
-				repeat wait() until basetime >= v.time
-				if v["type"] == "Place" then
-					print("place")
-					local args = {
-						[1] = v.data.name,
-						[2] = v.data.position
-					}
-
-					game:GetService("ReplicatedStorage"):WaitForChild("Functions"):WaitForChild("ChangeMode"):InvokeServer(unpack(args))
-				elseif v["type"] == "Upgrade" then
-					local args = {
-						[1] = v.data.name,
-						[2] = v.data.position
-					}
-
-					game:GetService("ReplicatedStorage"):WaitForChild("Functions"):WaitForChild("ChangeMode"):InvokeServer(unpack(args))
-				elseif v["type"] == "Sell" then
-					local current = 10
-					local current_instance = nil
-
-					for i,unit in pairs(workspace:WaitForChild("Towers"):GetChildren()) do 
-						local dis = (v.data.position.Position-unit.HumanoidRootPart.Position).Magnitude
-						if dis < current then
-							current = dis
-							current_instance = unit
-						end
-					end
-					if current_instance then
-						local args = {
-							[1] = current_instance
-						}
-
-						game:GetService("ReplicatedStorage"):WaitForChild("Functions"):WaitForChild("SellTower"):InvokeServer(unpack(args))
-					end
-				end
-			end
-		end
+		print(datamacro)
 	end
 end)
 
