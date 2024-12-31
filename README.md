@@ -287,16 +287,17 @@ for i,v in pairs(listfiles("Ladies_Hub/PixelTD/Macro/")) do
 	table.insert(ye,({v:gsub("Ladies_Hub/PixelTD/Macro/","")})[1])
 end
 
+local nameconfig = nil
+
 local Input = Macro:AddInput("Input", {
 	Title = "Create Macro",
-	Default = _G.nameconfig,
+	Default = nameconfig,
 	Placeholder = "Name Macro",
 	Numeric = false,
 	Finished = true,
 	Callback = function(text)
-		print("Input changed:", text)
-		_G.nameconfig = text
-		writefile(path.._G.nameconfig ..".txt","")
+		nameconfig = text
+		writefile(path..nameconfig ..".txt","")
 	end
 })
 
@@ -332,9 +333,9 @@ Macro:AddButton({
 	Title = "Delete file",
 	Description = "",
 	Callback = function(ez)
-		_G.Delete = ez
-		delfile(path.._G.selectconfig)
-	end})
+	_G.Delete = ez
+	delfile(path.._G.selectconfig)
+end})
 
 
 local basetime = 0
@@ -418,7 +419,46 @@ togglePlay:OnChanged(function(play)
 	saveSettings()
 	if _G.Play then 
 		local datamacro = readfile(path.._G.selectconfig)
-		print(datamacro)
+		local real = loadstring("return "..datamacro)()
+		for i,v in pairs(real) do 
+			if _G.Play then
+				repeat wait() until basetime >= v.time
+				if v["type"] == "Place" then
+					print("place")
+					local args = {
+						[1] = v.data.name,
+						[2] = v.data.position
+					}
+
+					game:GetService("ReplicatedStorage"):WaitForChild("Functions"):WaitForChild("ChangeMode"):InvokeServer(unpack(args))
+				elseif v["type"] == "Upgrade" then
+					local args = {
+						[1] = v.data.name,
+						[2] = v.data.position
+					}
+
+					game:GetService("ReplicatedStorage"):WaitForChild("Functions"):WaitForChild("ChangeMode"):InvokeServer(unpack(args))
+				elseif v["type"] == "Sell" then
+					local current = 10
+					local current_instance = nil
+
+					for i,unit in pairs(workspace:WaitForChild("Towers"):GetChildren()) do 
+						local dis = (v.data.position.Position-unit.HumanoidRootPart.Position).Magnitude
+						if dis < current then
+							current = dis
+							current_instance = unit
+						end
+					end
+					if current_instance then
+						local args = {
+							[1] = current_instance
+						}
+
+						game:GetService("ReplicatedStorage"):WaitForChild("Functions"):WaitForChild("SellTower"):InvokeServer(unpack(args))
+					end
+				end
+			end
+		end
 	end
 end)
 
