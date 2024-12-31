@@ -355,11 +355,6 @@ toggleRecord:OnChanged(function(record)
 end)
 
 
-local remote_record = {
-	"SpawnUnit",
-	"UpgradeUnit",
-	"SellUnit"
-}
 local mt = getrawmetatable(game)
 local old = mt.__namecall
 setreadonly(mt,false)
@@ -368,15 +363,17 @@ mt.__namecall = function(self,...)
 		local args = {...}
 		if xd then
 			if self.Name == "ChangeMode" then
-
-				table.insert(RecordMacroTable,{
-					['time'] = basetime,
-					['type'] = self.Name,
-					['data'] = {
-						['name'] = args[1],
-						['position'] = args[2]
-					}
-				})
+				if not args[1]:match("%d") then
+					
+					table.insert(RecordMacroTable,{
+						['time'] = basetime,
+						['type'] = "Place",
+						['data'] = {
+							['name'] = args[1],
+							['position'] = args[2]
+						}
+					})
+				end
 			end
 		end
 	end
