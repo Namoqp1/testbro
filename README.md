@@ -273,7 +273,7 @@ end)
 
 local Macro = Tabs.Macro:AddSection("Macro") 
 
-
+local Record_Macro = Tabs.Macro:AddSection("Record Macro") 
 
 local RecordMacroTable = {}
 
@@ -327,3 +327,66 @@ Macro:AddButton({
 })
 
 Refresh()
+
+
+
+local basetime = 0
+spawn(function()
+	while true do 
+		local realtime_wait = wait()
+		if game:GetService("Players").LocalPlayer.PlayerGui.GameGui.Info.Visible == true then 
+			basetime = basetime + realtime_wait
+		else
+			basetime = 0
+		end
+	end
+end)
+
+local xd = nil
+
+local toggleRecord = Record_Macro:AddToggle("toggleRecord", {Title = "Start Record", Default = _G.Skip })
+toggleRecord:OnChanged(function(record)
+	xd = record
+end)
+
+
+local remote_record = {
+	"SpawnUnit",
+	"UpgradeUnit",
+	"SellUnit"
+}
+local mt = getrawmetatable(game)
+local old = mt.__namecall
+setreadonly(mt,false)
+mt.__namecall = function(self,...)
+	if not checkcaller() then 
+		local args = {...}
+		if xd then
+			if self.Name == "ChangeMode" then
+
+				table.insert(RecordMacroTable,{
+					['time'] = basetime,
+					['type'] = self.Name,
+					['data'] = {
+						['name'] = args[1],
+						['position'] = args[2]
+					}
+				})
+			end
+		end
+	end
+	return old(self,...)
+end
+
+
+
+
+
+local Play_Macro = Tabs.Macro:AddSection("Play Macro") 
+
+
+local toggleSkip = Setting:AddToggle("toggleSkip", {Title = "Auto Skip", Default = _G.Skip })
+toggleSkip:OnChanged(function(bool)
+	_G.Skip = bool
+	saveSettings()
+end)
