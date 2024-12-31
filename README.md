@@ -417,14 +417,17 @@ togglePlay:OnChanged(function(play)
 	_G.Play = play
 	saveSettings()
 	if _G.Play then 
+		print("pass1")
 		local datamacro = readfile(path.._G.selectconfig)
 
 		local real = loadstring("return "..datamacro)()
 		for i,v in pairs(real) do 
 			if _G.Play then
+				print("pass2")
 				repeat wait() until basetime >= v.time
-
+				print("pass3")
 				if v["type"] == "Place" then
+					print("place")
 					local args = {
 						[1] = v.data.name,
 						[2] = v.data.position
