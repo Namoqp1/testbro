@@ -357,8 +357,6 @@ toggleRecord:OnChanged(function(record)
 	xd = record
 	if xd then 
 		RecordMacroTable = {}
-	else
-		writefile(path.._G.selectconfig,convert(RecordMacroTable))
 	end
 end)
 
