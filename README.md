@@ -419,9 +419,11 @@ togglePlay:OnChanged(function(play)
 	if _G.Play then 
 		print("pass1")
 		local datamacro = readfile(path.._G.selectconfig)
-
+		print("p")
 		local real = loadstring("return "..datamacro)()
+		print("a")
 		for i,v in pairs(real) do 
+			print("ss")
 			if _G.Play then
 				print("pass2")
 				repeat wait() until basetime >= v.time
@@ -442,11 +444,23 @@ togglePlay:OnChanged(function(play)
 
 					game:GetService("ReplicatedStorage"):WaitForChild("Functions"):WaitForChild("ChangeMode"):InvokeServer(unpack(args))
 				elseif v["type"] == "Sell" then
-					local args = {
-						[1] = v.data.name
-					}
+					local current = 10
+					local current_instance = nil
 
-					game:GetService("ReplicatedStorage"):WaitForChild("Functions"):WaitForChild("SellTower"):InvokeServer(unpack(args))
+					for i,unit in pairs(workspace:WaitForChild("Towers"):GetChildren()) do 
+						local dis = (v.data.position.Position-unit.HumanoidRootPart.Position).Magnitude
+						if dis < current then
+							current = dis
+							current_instance = unit
+						end
+					end
+					if current_instance then
+						local args = {
+							[1] = current_instance
+						}
+
+						game:GetService("ReplicatedStorage"):WaitForChild("Functions"):WaitForChild("SellTower"):InvokeServer(unpack(args))
+					end
 				end
 			end
 		end
