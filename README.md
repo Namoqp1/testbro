@@ -5,12 +5,12 @@ repeat task.wait() until game:GetService("Players").LocalPlayer
 repeat task.wait() until game:GetService("ReplicatedStorage")
 repeat task.wait() until game:GetService("ReplicatedFirst")
 
-print("up1")
+print("up2")
 
 
 local function checkLine(s)
 	local a = 0
-	for i in string.gmatch(s, "[^\n]+") do
+	for i in string.gmatch(s, "[^\n]+") do  
 		a = a+1
 	end
 	return a
@@ -328,6 +328,13 @@ Macro:AddButton({
 
 Refresh()
 
+Macro:AddButton({
+	Title = "Delete file",
+	Description = "",
+	Callback = function(ez)
+	_G.Delete = ez
+	delfile(path.._G.selectconfig)
+end})
 
 
 local basetime = 0
@@ -405,8 +412,39 @@ end
 local Play_Macro = Tabs.Macro:AddSection("Play Macro") 
 
 
-local toggleSkip = Setting:AddToggle("toggleSkip", {Title = "Auto Skip", Default = _G.Skip })
-toggleSkip:OnChanged(function(bool)
-	_G.Skip = bool
+local toggleSkip = Play_Macro:AddToggle("togglePlay", {Title = "Play Macro", Default = _G.Play })
+toggleSkip:OnChanged(function(play)
+	_G.Play = play
 	saveSettings()
+	local datamacro = readfile(path.._G.selectconfig)
+	
+	local real = loadstring("return "..datamacro)()
+	for i,v in pairs(real) do 
+		if _G.Play then
+			repeat wait() until basetime >= v.time
+			
+			if v["type"] == "Place" then
+				local args = {
+					[1] = v.data.name,
+					[2] = v.data.position
+				}
+
+				game:GetService("ReplicatedStorage"):WaitForChild("Functions"):WaitForChild("ChangeMode"):InvokeServer(unpack(args))
+			elseif v["type"] == "Upgrade" then
+				local args = {
+					[1] = v.data.name,
+					[2] = v.data.position
+				}
+
+				game:GetService("ReplicatedStorage"):WaitForChild("Functions"):WaitForChild("ChangeMode"):InvokeServer(unpack(args))
+			elseif v["type"] == "Sell" then
+				local args = {
+					[1] = v.data.name
+				}
+
+				game:GetService("ReplicatedStorage"):WaitForChild("Functions"):WaitForChild("SellTower"):InvokeServer(unpack(args))
+			end
+		end
+	end
 end)
+
