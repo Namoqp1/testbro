@@ -347,6 +347,11 @@ local xd = nil
 local toggleRecord = Record_Macro:AddToggle("toggleRecord", {Title = "Start Record", Default = _G.Skip })
 toggleRecord:OnChanged(function(record)
 	xd = record
+	if xd then 
+		RecordMacroTable = {}
+	else
+		writefile(path.._G.selectconfig..".txt",convert(RecordMacroTable))
+	end
 end)
 
 
