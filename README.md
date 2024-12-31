@@ -5,7 +5,7 @@ repeat task.wait() until game:GetService("Players").LocalPlayer
 repeat task.wait() until game:GetService("ReplicatedStorage")
 repeat task.wait() until game:GetService("ReplicatedFirst")
 
-print("up2")
+print("up3")
 
 
 local function checkLine(s)
@@ -416,33 +416,35 @@ local toggleSkip = Play_Macro:AddToggle("togglePlay", {Title = "Play Macro", Def
 toggleSkip:OnChanged(function(play)
 	_G.Play = play
 	saveSettings()
-	local datamacro = readfile(path.._G.selectconfig)
-	
-	local real = loadstring("return "..datamacro)()
-	for i,v in pairs(real) do 
-		if _G.Play then
-			repeat wait() until basetime >= v.time
-			
-			if v["type"] == "Place" then
-				local args = {
-					[1] = v.data.name,
-					[2] = v.data.position
-				}
+	if _G.Play then 
+		local datamacro = readfile(path.._G.selectconfig)
 
-				game:GetService("ReplicatedStorage"):WaitForChild("Functions"):WaitForChild("ChangeMode"):InvokeServer(unpack(args))
-			elseif v["type"] == "Upgrade" then
-				local args = {
-					[1] = v.data.name,
-					[2] = v.data.position
-				}
+		local real = loadstring("return "..datamacro)()
+		for i,v in pairs(real) do 
+			if _G.Play then
+				repeat wait() until basetime >= v.time
 
-				game:GetService("ReplicatedStorage"):WaitForChild("Functions"):WaitForChild("ChangeMode"):InvokeServer(unpack(args))
-			elseif v["type"] == "Sell" then
-				local args = {
-					[1] = v.data.name
-				}
+				if v["type"] == "Place" then
+					local args = {
+						[1] = v.data.name,
+						[2] = v.data.position
+					}
 
-				game:GetService("ReplicatedStorage"):WaitForChild("Functions"):WaitForChild("SellTower"):InvokeServer(unpack(args))
+					game:GetService("ReplicatedStorage"):WaitForChild("Functions"):WaitForChild("ChangeMode"):InvokeServer(unpack(args))
+				elseif v["type"] == "Upgrade" then
+					local args = {
+						[1] = v.data.name,
+						[2] = v.data.position
+					}
+
+					game:GetService("ReplicatedStorage"):WaitForChild("Functions"):WaitForChild("ChangeMode"):InvokeServer(unpack(args))
+				elseif v["type"] == "Sell" then
+					local args = {
+						[1] = v.data.name
+					}
+
+					game:GetService("ReplicatedStorage"):WaitForChild("Functions"):WaitForChild("SellTower"):InvokeServer(unpack(args))
+				end
 			end
 		end
 	end
