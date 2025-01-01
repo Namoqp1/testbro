@@ -383,6 +383,7 @@ mt.__namecall = function(self,...)
 					end
 				elseif args[1]:match("%d") then
 					table.insert(RecordMacroTable,{
+						print(args[3]:gsub("game%.", "")),
 						writefile(path.._G.selectconfig,convert(RecordMacroTable)),
 						['time'] = basetime,
 						['type'] = "Upgrade",
@@ -432,8 +433,6 @@ togglePlay:OnChanged(function(play)
 					}
 
 					game:GetService("ReplicatedStorage"):WaitForChild("Functions"):WaitForChild("ChangeMode"):InvokeServer(unpack(args))
-				elseif v["type"] == "Upgrade" then
-					print(v.data.oldname:gsub("game%.", ""))
 				end
 			end
 		end
