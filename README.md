@@ -388,7 +388,8 @@ mt.__namecall = function(self,...)
 						['type'] = "Upgrade",
 						['data'] = {
 							['name'] = args[1],
-							['position'] = args[2]
+							['position'] = args[2],
+							['oldname'] = args[3]
 						}
 					})
 				end
@@ -434,7 +435,8 @@ togglePlay:OnChanged(function(play)
 				elseif v["type"] == "Upgrade" then
 					local args = {
 						[1] = v.data.name,
-						[2] = v.data.position  
+						[2] = v.data.position,
+						[3] = v.data.oldname,
 					}
 
 					game:GetService("ReplicatedStorage"):WaitForChild("Functions"):WaitForChild("ChangeMode"):InvokeServer(unpack(args))
