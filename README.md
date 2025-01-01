@@ -333,9 +333,9 @@ Macro:AddButton({
 	Title = "Delete file",
 	Description = "",
 	Callback = function(ez)
-	_G.Delete = ez
-	delfile(path.._G.selectconfig)
-end})
+		_G.Delete = ez
+		delfile(path.._G.selectconfig)
+	end})
 
 
 local basetime = 0
@@ -437,12 +437,6 @@ togglePlay:OnChanged(function(play)
 						for i,unit in pairs(workspace:WaitForChild("Towers"):GetChildren()) do
 							if unit.HumanoidRootPart.CFrame == v.data.position then
 								local current_instance = unit
-								local old_data = workspace.Towers:FindFirstChild(unit.Name).Config.Level.Value
-
-								while true do
-									local now = workspace.Towers:FindFirstChild(unit.Name).Config.Level.Value
-
-									if now ~= old_data then break end
 									local args = {
 										[1] = v.data.name,
 										[2] = v.data.position,
@@ -450,9 +444,6 @@ togglePlay:OnChanged(function(play)
 									}
 
 									game:GetService("ReplicatedStorage"):WaitForChild("Functions"):WaitForChild("ChangeMode"):InvokeServer(unpack(args))
-
-									task.wait(0.1)
-								end
 							end
 						end
 					end
