@@ -433,7 +433,7 @@ task.spawn(function()
 						if v["type"] == "Place" then
 							local have_place = false
 
-							local connection = workspace._UNITS.ChildAdded:Connect(function(obj)
+							local connection = workspace.Towers.ChildAdded:Connect(function(obj)
 								if obj.Name:find(v.data.name) then 
 									have_place = true
 								end
