@@ -377,7 +377,7 @@ mt.__namecall = function(self,...)
 							['type'] = "Place",
 							['data'] = {
 								['name'] = tostring(args[1]),
-								['position'] = tostring(args[2])
+								['position'] = args[2]
 							}
 						})
 					end
@@ -388,7 +388,7 @@ mt.__namecall = function(self,...)
 						['type'] = "Upgrade",
 						['data'] = {
 							['name'] = tostring(args[1]),
-							['position'] = tostring(args[2]),
+							['position'] = args[2],
 							['oldname'] = tostring(args[3])
 						}
 					})
