@@ -436,7 +436,7 @@ togglePlay:OnChanged(function(play)
 					local args = {
 						[1] = v.data.name,
 						[2] = v.data.position,
-						[3] = v.data.oldname:gsub("game%.", ""),
+						[3] = v.data.oldname:gsub("game%.", "")
 					}
 
 					game:GetService("ReplicatedStorage"):WaitForChild("Functions"):WaitForChild("ChangeMode"):InvokeServer(unpack(args))
