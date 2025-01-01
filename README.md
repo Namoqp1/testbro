@@ -5,7 +5,7 @@ repeat task.wait() until game:GetService("Players").LocalPlayer
 repeat task.wait() until game:GetService("ReplicatedStorage")
 repeat task.wait() until game:GetService("ReplicatedFirst")
 
-print("up3")
+print("up4")
 
 
 local function checkLine(s)
@@ -425,6 +425,13 @@ togglePlay:OnChanged(function(play)
 			if _G.Play then
 				repeat wait() until basetime >= v.time
 				if v["type"] == "Place" then
+					local args = {
+						[1] = v.data.name,
+						[2] = v.data.position  
+					}
+
+					game:GetService("ReplicatedStorage"):WaitForChild("Functions"):WaitForChild("ChangeMode"):InvokeServer(unpack(args))
+				elseif v["type"] == "Upgrade" then
 					local args = {
 						[1] = v.data.name,
 						[2] = v.data.position  
