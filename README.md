@@ -177,7 +177,7 @@ local Tabs = {
 }
 
 local aza = "Ladius HUB Configs"
-local bza = tostring(game.PlaceId).."-"..tostring(game.Players.LocalPlayer.Name)
+local bza = tostring(game.PlaceId)
 
 if isfolder(aza) then
 	print("have file")
@@ -389,7 +389,7 @@ mt.__namecall = function(self,...)
 						['data'] = {
 							['name'] = args[1],
 							['position'] = args[2],
-							['oldname'] = args[3]
+							['oldname'] = args[3]:gsub("game%.", "")
 						}
 					})
 				end
