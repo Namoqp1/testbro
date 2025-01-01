@@ -376,8 +376,8 @@ mt.__namecall = function(self,...)
 							['time'] = basetime,
 							['type'] = "Place",
 							['data'] = {
-								['name'] = args[1],
-								['position'] = args[2]
+								['name'] = tostring(args[1]),
+								['position'] = tostring(args[2])
 							}
 						})
 					end
@@ -387,9 +387,9 @@ mt.__namecall = function(self,...)
 						['time'] = basetime,
 						['type'] = "Upgrade",
 						['data'] = {
-							['name'] = args[1],
-							['position'] = args[2],
-							['oldname'] = args[3]
+							['name'] = tostring(args[1]),
+							['position'] = tostring(args[2]),
+							['oldname'] = tostring(args[3])
 						}
 					})
 				end
@@ -399,7 +399,7 @@ mt.__namecall = function(self,...)
 					['time'] = basetime,
 					['type'] = "Sell",
 					['data'] = {
-						['name'] = args[1]
+						['name'] = tostring(args[1])
 					}
 				})
 			end
