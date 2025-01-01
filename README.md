@@ -433,13 +433,20 @@ togglePlay:OnChanged(function(play)
 
 					game:GetService("ReplicatedStorage"):WaitForChild("Functions"):WaitForChild("ChangeMode"):InvokeServer(unpack(args))
 				elseif v["type"] == "Upgrade" then
-					local args = {
-						[1] = v.data.name,
-						[2] = v.data.position,
-						[3] = "workspace.Towers."..v.data.oldname:gsub("game%.", "")
-					}
+					for i,unit in pairs(workspace:WaitForChild("Towers"):GetChildren()) do
+						if unit.HumanoidRootPart.CFrame == v.data.position then
+							local current_instance = unit
+							if current_instance then
+								local args = {
+									[1] = v.data.name,
+									[2] = v.data.position,
+									[3] = current_instance
+								}
 
-					game:GetService("ReplicatedStorage"):WaitForChild("Functions"):WaitForChild("ChangeMode"):InvokeServer(unpack(args))
+								game:GetService("ReplicatedStorage"):WaitForChild("Functions"):WaitForChild("ChangeMode"):InvokeServer(unpack(args))
+							end
+						end
+					end
 				end
 			end
 		end
