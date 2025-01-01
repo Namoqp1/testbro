@@ -419,60 +419,55 @@ local togglePlay = Play_Macro:AddToggle("togglePlay", {Title = "Play Macro", Def
 togglePlay:OnChanged(function(play)
 	_G.Play = play
 	saveSettings()
-end)
+	if _G.Play then 
+		local datamacro = readfile(path.._G.selectconfig)
+		local real = loadstring("return "..datamacro)()
+		if #real > 0 and real[#real].time > basetime then
+			for i,v in pairs(real) do 
+				if _G.Play then
+					repeat wait() until basetime >= v.time
+					if v["type"] == "Place" then
+						local have_place = false
 
-task.spawn(function()
-	while task.wait() do
-		if _G.Play then 
-			local datamacro = readfile(path.._G.selectconfig)
-			local real = loadstring("return "..datamacro)()
-			if #real > 0 and real[#real].time > basetime then
-				for i,v in pairs(real) do 
-					if _G.Play then
-						repeat wait() until basetime >= v.time
-						if v["type"] == "Place" then
-							local have_place = false
-
-							local connection = workspace.Towers.ChildAdded:Connect(function(obj)
-								if obj.Name:find(v.data.name) then 
-									have_place = true
-								end
-							end)
-
-							while true do
-								if have_place then break end
-
-								local args = {
-									[1] = v.data.name,
-									[2] = v.data.position  
-								}
-
-								game:GetService("ReplicatedStorage"):WaitForChild("Functions"):WaitForChild("ChangeMode"):InvokeServer(unpack(args))
-								task.wait(0.1)
-
+						local connection = workspace.Towers.ChildAdded:Connect(function(obj)
+							if obj.Name:find(v.data.name) then 
+								have_place = true
 							end
+						end)
 
-							connection:Disconnect()
-						elseif v["type"] == "Upgrade" then
-							for i,unit in pairs(workspace:WaitForChild("Towers"):GetChildren()) do
-								if unit.HumanoidRootPart.CFrame == v.data.position then
-									local current_instance = unit
-									local old_data = workspace.Towers:FindFirstChild(unit.Name).Config.Level.Value
+						while true do
+							if have_place then break end
 
-									while true do
-										local now = workspace.Towers:FindFirstChild(unit.Name).Config.Level.Value
+							local args = {
+								[1] = v.data.name,
+								[2] = v.data.position  
+							}
 
-										if now ~= old_data then break end
-										local args = {
-											[1] = v.data.name,
-											[2] = v.data.position,
-											[3] = current_instance
-										}
+							game:GetService("ReplicatedStorage"):WaitForChild("Functions"):WaitForChild("ChangeMode"):InvokeServer(unpack(args))
+							task.wait(0.1)
 
-										game:GetService("ReplicatedStorage"):WaitForChild("Functions"):WaitForChild("ChangeMode"):InvokeServer(unpack(args))
+						end
 
-										task.wait(0.1)
-									end
+						connection:Disconnect()
+					elseif v["type"] == "Upgrade" then
+						for i,unit in pairs(workspace:WaitForChild("Towers"):GetChildren()) do
+							if unit.HumanoidRootPart.CFrame == v.data.position then
+								local current_instance = unit
+								local old_data = workspace.Towers:FindFirstChild(unit.Name).Config.Level.Value
+
+								while true do
+									local now = workspace.Towers:FindFirstChild(unit.Name).Config.Level.Value
+
+									if now ~= old_data then break end
+									local args = {
+										[1] = v.data.name,
+										[2] = v.data.position,
+										[3] = current_instance
+									}
+
+									game:GetService("ReplicatedStorage"):WaitForChild("Functions"):WaitForChild("ChangeMode"):InvokeServer(unpack(args))
+
+									task.wait(0.1)
 								end
 							end
 						end
@@ -482,3 +477,4 @@ task.spawn(function()
 		end
 	end
 end)
+
